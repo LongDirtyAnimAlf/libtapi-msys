@@ -1,0 +1,14 @@
+language: cpp
+dist: trusty
+
+os:
+  - linux
+
+compiler:
+  - clang
+
+before_install:
+  - if [ $TRAVIS_OS_NAME == linux ]; then sudo apt-get install -y cmake gcc g++; fi
+
+script:
+  - ./build.sh

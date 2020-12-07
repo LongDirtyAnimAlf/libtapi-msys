@@ -21,6 +21,7 @@ case "$OSTYPE" in
   darwin*)  CMAKE_GENERATOR=-G"Xcode" ;;
   linux*)   CMAKE_GENERATOR=-G"Unix Makefiles" ;;
   bsd*)     CMAKE_GENERATOR=-G"Unix Makefiles" ;;
+  cygwin*)  CMAKE_GENERATOR=-G"Unix Makefiles" ;;
   msys*)
             if [ "$(getconf LONG_BIT)" == "64" ]; then
               HOST_TRIPLE=x86_64-pc-mingw64
@@ -43,17 +44,15 @@ fi
 INCLUDE_FIX=""
 INCLUDE_FIX+="-I $PWD/../src/llvm/projects/clang/include "
 INCLUDE_FIX+="-I $PWD/projects/clang/include "
-INCLUDE_FIX+="-Wno-error=deprecated-copy "
+# INCLUDE_FIX+="-Wno-error=deprecated-copy "
 INCLUDE_FIX+="-Wno-error=implicit-fallthrough "
-INCLUDE_FIX+="-Wno-error=range-loop-construct "
+# INCLUDE_FIX+="-Wno-error=range-loop-construct "
 INCLUDE_FIX+="-Wno-error=unused-function "
 INCLUDE_FIX+="-Wno-error=switch "
 INCLUDE_FIX+="-Wno-error=return-type "
 INCLUDE_FIX+="-Wno-error=unused-variable "
 INCLUDE_FIX+="-Wno-error=uninitialized "
-INCLUDE_FIX+="-Wno-error=deprecated-copy "
 INCLUDE_FIX+="-Wno-error=implicit-fallthrough "
-INCLUDE_FIX+="-Wno-error=range-loop-construct "
 # INCLUDE_FIX+="_GNU_SOURCE=1"
 
 echo -n $INSTALLPREFIX > INSTALLPREFIX
@@ -78,13 +77,13 @@ echo ""
 echo "## Building clangBasic ##"
 echo ""
 
-cmake --build . --target clangBasic
+cmake --build . --target clangBasic -j 4
 
 echo ""
 echo "## Building libtapi ##"
 echo ""
 
-cmake --build . --target libtapi
+cmake --build . --target libtapi -j 4
 
 echo ""
 echo "## Installing libtapi ##"
